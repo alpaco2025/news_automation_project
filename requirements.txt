@@ -1,0 +1,33 @@
+# -----------------------------
+# Core HTTP & Crawling
+# -----------------------------
+requests
+beautifulsoup4
+
+# -----------------------------
+# Database (MySQL)
+# -----------------------------
+pymysql
+
+# -----------------------------
+# Environment variables (.env)
+# -----------------------------
+python-dotenv
+
+# -----------------------------
+# OpenAI / LLM
+# -----------------------------
+openai
+
+# -----------------------------
+# Web Framework (FastAPI)
+# -----------------------------
+fastapi
+uvicorn[standard]
+jinja2
+python-multipart
+
+# -----------------------------
+# (Optional) Data handling
+# -----------------------------
+pandas
