@@ -20,14 +20,11 @@ python-dotenv
 openai
 
 # -----------------------------
-# Web Framework (FastAPI)
+# Dashboard (Streamlit)
 # -----------------------------
-fastapi
-uvicorn[standard]
-jinja2
-python-multipart
+streamlit
 
 # -----------------------------
-# (Optional) Data handling
+# (Optional) Data handling / 편의용
 # -----------------------------
 pandas
