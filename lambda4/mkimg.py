@@ -33,6 +33,35 @@ def load_latest_json(bucket: str, key: str) -> dict:
     raw = obj["Body"].read().decode("utf-8")
     return json.loads(raw)
 
+<<<<<<< HEAD:lambda4/mkimg.py
+=======
+def s3_exists(bucket: str, key: str) -> bool:
+    """
+    S3에 이미 같은 key가 존재하면 True
+    (이미 생성된 이미지는 절대 재생성하지 않기 위함)
+    """
+    try:
+        s3.head_object(Bucket=bucket, Key=key)
+        return True
+    except Exception:
+        return False
+
+def stable_seed_from_id(article_id: int) -> int:
+    h = hashlib.sha256(str(article_id).encode()).hexdigest()
+    return int(h[:8], 16)
+
+def get_date_folder(article: dict) -> str:
+    """
+    S3 폴더명을 안정적으로 만들기 위해:
+    - article_date가 있으면 YYYY-MM-DD 사용
+    - 없으면 현재 KST 날짜 사용
+    """
+    ad = (article.get("article_date") or "").strip()
+    if len(ad) >= 10:
+        return ad[:10]  # "YYYY-MM-DD"
+    return datetime.now(KST).date().isoformat()
+
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
 # =========================================================
 # Stability Credit Guard (HARD BLOCK)
 # =========================================================
@@ -51,6 +80,10 @@ def assert_stability_credit_ok():
     credits = get_stability_credits()
     if credits <= 0:
         raise RuntimeError(f"[CREDIT_BLOCKED] Stability credits exhausted ({credits})")
+<<<<<<< HEAD:lambda4/mkimg.py
+=======
+    return credits
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
 
 # =========================================================
 # OpenAI Prompt
@@ -101,17 +134,28 @@ Requirements:
             if r.status_code != 200:
                 raise RuntimeError(f"[OPENAI_ERROR] {r.status_code}: {r.text[:300]}")
             return r.json()["choices"][0]["message"]["content"].strip()[:1200]
+<<<<<<< HEAD:lambda4/mkimg.py
         except Exception:
+=======
+        except Exception as e:
+            print(f"[OPENAI] attempt={attempt+1} failed: {e}")
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
             time.sleep(0.7 * (attempt + 1))
 
     raise RuntimeError("OpenAI prompt failed")
 
 # =========================================================
+<<<<<<< HEAD:lambda4/mkimg.py
 # Stability Image Generation (DOUBLE GUARD)
 # =========================================================
 def generate_image_stability(prompt_en: str, seed: int) -> bytes:
     assert_stability_credit_ok()  # ← 2차 방어
 
+=======
+# Stability Image Generation
+# =========================================================
+def generate_image_stability(prompt_en: str, seed: int) -> bytes:
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
     api_key = _env("STABILITY_API_KEY", required=True)
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -139,6 +183,14 @@ def generate_image_stability(prompt_en: str, seed: int) -> bytes:
                 files=files,
                 timeout=90,
             )
+<<<<<<< HEAD:lambda4/mkimg.py
+=======
+
+            # 402면 여기서 바로 실패(크레딧 부족)
+            if r.status_code == 402:
+                raise RuntimeError(f"[STABILITY_ERROR] 402: {r.text[:300]}")
+
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
             if r.status_code != 200:
                 raise RuntimeError(f"[STABILITY_ERROR] {r.status_code}: {r.text[:300]}")
 
@@ -157,6 +209,7 @@ def generate_image_stability(prompt_en: str, seed: int) -> bytes:
 
             raise RuntimeError("Unknown Stability response")
 
+<<<<<<< HEAD:lambda4/mkimg.py
         except Exception:
             time.sleep(0.7 * (attempt + 1))
 
@@ -164,6 +217,17 @@ def generate_image_stability(prompt_en: str, seed: int) -> bytes:
 
 # =========================================================
 # S3 / Utils
+=======
+        except Exception as e:
+            last_err = e
+            print(f"[STABILITY] attempt={attempt+1} failed: {e}")
+            time.sleep(0.7 * (attempt + 1))
+
+    raise RuntimeError(f"Stability generation failed: {last_err}")
+
+# =========================================================
+# S3 Put
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
 # =========================================================
 def put_png_to_s3(bucket: str, key: str, png_bytes: bytes):
     s3.put_object(
@@ -174,6 +238,7 @@ def put_png_to_s3(bucket: str, key: str, png_bytes: bytes):
         CacheControl="no-cache",
     )
 
+<<<<<<< HEAD:lambda4/mkimg.py
 def stable_seed_from_id(article_id: int) -> int:
     h = hashlib.sha256(str(article_id).encode()).hexdigest()
     return int(h[:8], 16)
@@ -184,6 +249,15 @@ def stable_seed_from_id(article_id: int) -> int:
 def lambda_handler(event, context):
     # 🔒 1차 전체 차단
     assert_stability_credit_ok()
+=======
+# =========================================================
+# Lambda Handler
+# =========================================================
+def lambda_handler(event, context):
+    # 🔒 전체 실행 전에 크레딧 1회만 체크 (중복 호출 제거)
+    credits = assert_stability_credit_ok()
+    print(f"[CREDITS] Stability credits available: {credits}")
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
 
     bucket = _env("S3_BUCKET", required=True)
     input_key = _env("INPUT_JSON_KEY", "news/daily/latest.json")
@@ -191,30 +265,80 @@ def lambda_handler(event, context):
     max_images = int(_env("MAX_IMAGES_PER_RUN", "3"))
 
     data = load_latest_json(bucket, input_key)
+<<<<<<< HEAD:lambda4/mkimg.py
     date_str = data.get("date") or datetime.now(KST).date().isoformat()
 
     articles = data.get("articles", [])
     candidates = [a for a in articles if (a.get("summary") or "").strip()][:max_images]
+=======
+    articles = data.get("articles", [])
+
+    # 요약문 있는 기사만 대상
+    candidates = [a for a in articles if (a.get("summary") or "").strip()]
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
 
     results = []
+    skipped = 0
+    tried = 0
+
     for a in candidates:
+        if len(results) >= max_images:
+            break
+
         article_id = a.get("id")
         title = (a.get("title") or "").strip()
         summary = (a.get("summary") or "").strip()
+
         if not article_id or not title or not summary:
             continue
 
+<<<<<<< HEAD:lambda4/mkimg.py
         prompt = openai_make_prompt(title, summary)
         png = generate_image_stability(prompt, stable_seed_from_id(int(article_id)))
+=======
+        date_folder = get_date_folder(a)
+        key = f"{out_prefix}/{date_folder}/{article_id}.png"
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
 
-        key = f"{out_prefix}/{date_str}/{article_id}.png"
-        put_png_to_s3(bucket, key, png)
-        results.append({"id": article_id, "s3_key": key})
+        # ✅ 재생성 방지: 이미 있으면 스킵 (OpenAI/Stable 호출 전에!)
+        if s3_exists(bucket, key):
+            skipped += 1
+            results.append({"id": article_id, "s3_key": key, "skipped": True})
+            print(f"[SKIP] already exists: s3://{bucket}/{key}")
+            continue
+
+        tried += 1
+        try:
+            prompt = openai_make_prompt(title, summary)
+            png = generate_image_stability(prompt, stable_seed_from_id(int(article_id)))
+
+            put_png_to_s3(bucket, key, png)
+            results.append({"id": article_id, "s3_key": key, "skipped": False})
+            print(f"[SAVED] s3://{bucket}/{key}")
+
+        except Exception as e:
+            # 실패해도 전체 Lambda는 계속 돌게
+            print(f"[ERROR] id={article_id} generate failed: {e}")
+            results.append({"id": article_id, "error": str(e), "skipped": False})
+
+    date_str = datetime.now(KST).date().isoformat()
 
     return {
         "statusCode": 200,
         "body": json.dumps(
+<<<<<<< HEAD:lambda4/mkimg.py
             {"ok": True, "date": date_str, "count": len(results), "saved": results},
+=======
+            {
+                "ok": True,
+                "date": date_str,
+                "max_images": max_images,
+                "attempted": tried,
+                "skipped_existing": skipped,
+                "count": len([r for r in results if r.get("s3_key") and not r.get("skipped")]),
+                "results": results,
+            },
+>>>>>>> abbc0dc (update lambda3/lambda4 and add new files):lambda4/new_mkimg.py
             ensure_ascii=False,
         ),
     }
