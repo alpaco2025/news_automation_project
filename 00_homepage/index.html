@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI News</title>
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">AI News</a>
+
+
+    <!-- 검색 영역 -->
+    <div class="header-search-wrap">
+      <input
+        type="text"
+        id="mainSearchInput"
+        class="header-search"
+        placeholder="뉴스 검색"
+      />
+      <button
+        type="button"
+        id="mainSearchBtn"
+        class="header-search-btn"
+        aria-label="검색"
+      >
+        🔍
+      </button>
+    </div>
+<!--
+    <nav class="nav">
+      <a href="#">Home</a>
+      <a href="#">Creative</a>
+    </nav>
+  -->
+  </div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-images">
+    <img src="assets/images/hero-news.png" class="hero-img news" alt="">
+    <img src="assets/images/hero-ai.png" class="hero-img ai" alt="">
+  </div>
+
+
+  <div class="container hero-text">
+    <p class="hero-line line-1">
+      <span class="hero-gradient-text">AI 기반 뉴스 요약</span>
+    </p>
+
+    <p class="hero-line line-2">
+      <span class="hero-gradient-text strong">자동 수집 · 자동 분석</span>
+    </p>
+
+    <p class="hero-line line-3">
+      <span class="hero-gradient-text">매일 아침 한눈에</span>
+    </p>
+    <p class="hero-line line-4">
+      <span class="hero-gradient-big">AI NEWS</span>
+    </p>
+
+  </div>
+</section>
+
+
+
+
+<!-- ================= NEWS ================= -->
+<section class="section">
+  <div class="container">
+    <h3>Today News</h3>
+    <div class="card-grid" id="newsGrid"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h3>Previous News</h3>
+    <div class="card-grid" id="pastNewsGrid"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2025 AI News</p>
+  </div>
+</footer>
+
+<!-- ================= MODAL ================= -->
+<div class="news-modal" id="newsModal">
+  <div class="news-modal-overlay"></div>
+  <div class="news-modal-content">
+    <button class="news-modal-close" id="newsModalClose">×</button>
+    <h2 id="modalTitle"></h2>
+    <p id="modalSummary"></p>
+    <div class="news-modal-keywords" id="modalKeywords"></div>
+  </div>
+</div>
+
+<script src="js/hero.js"></script>
+<script src="js/news.js"></script>
+<script src="js/header-search.js"></script>
+</body>
+</html>

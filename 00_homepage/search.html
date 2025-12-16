@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>뉴스 검색 결과</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 기존 스타일 그대로 재사용 -->
+  <link rel="stylesheet" href="css/layout.css" />
+</head>
+<body>
+
+  <!-- =======================
+       Header (재사용)
+  ======================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">AI News</a>
+
+      <!-- 검색창 (검색 결과 페이지에서도 사용) -->
+      <div class="header-search-wrap">
+        <input
+          type="text"
+          id="searchInput"
+          class="header-search"
+          placeholder="뉴스 검색"
+        />
+        <button
+          type="button"
+          id="searchBtn"
+          class="header-search-btn"
+          aria-label="검색"
+        >
+          🔍
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================
+       Search Result Section
+  ======================== -->
+  <section class="section">
+    <div class="container">
+      <h3 id="searchTitle">검색 결과</h3>
+
+      <!-- 검색 결과 카드 영역 -->
+      <div class="card-grid" id="searchResultGrid">
+        <!-- JS로 카드 삽입 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- JS는 다음 단계에서 연결 -->
+<script src="js/search.js"></script>
+
+</body>
+</html>
