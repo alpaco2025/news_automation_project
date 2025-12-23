@@ -38,7 +38,7 @@ def process_one_article(article: dict):
 
     # 4) 메타 테이블에 INSERT
     insert_news_ai_meta(article_id, summary, topic, keywords)
-
+``
     # 5) 원본 기사 플래그 변경
     mark_article_summarized(article_id)
 

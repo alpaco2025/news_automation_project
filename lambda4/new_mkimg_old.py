@@ -60,24 +60,26 @@ def openai_make_prompt(title_kr: str, summary_kr: str) -> str:
     model = _env("OPENAI_MODEL", "gpt-4o-mini")
 
     system = (
-        "You are a prompt engineer for generating photorealistic news thumbnail images. "
-        "Write a single English prompt optimized for image generation. "
-        "No JSON. No markdown. One paragraph only."
-    )
+    "You are an expert visual prompt engineer for photorealistic news images. "
+    "Your task is to convert news content into a concrete, realistic visual scene. "
+    "Write ONE detailed English prompt paragraph optimized for image generation. "
+    "No JSON. No markdown."
+)
 
     user = f"""
-Korean headline:
-{title_kr}
+News context (Korean):
+Headline: {title_kr}
+Summary: {summary_kr}
 
-Korean summary:
-{summary_kr}
+Task:
+Describe a single, specific visual scene that clearly represents the core event of this news.
 
-Requirements:
-- Output: ONE English prompt paragraph for a professional news thumbnail.
-- Photorealistic, cinematic lighting, clean composition, symbolic but accurate.
-- Avoid text/captions/logos/watermarks.
-- If people appear: realistic anatomy, normal hands, no extra limbs.
-- Keep it concise but specific.
+Guidelines:
+- Specify the main subject, environment, action, time of day, and camera angle.
+- Use real-world objects, locations, or people implied by the news.
+- Avoid abstract concepts unless they are visually concrete.
+- No text, captions, logos, or watermarks.
+- Photorealistic, cinematic lighting, professional news photography style.
 """
 
     payload = {
