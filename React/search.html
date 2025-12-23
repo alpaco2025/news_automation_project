@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>뉴스 검색 결과</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 기존 스타일 그대로 재사용 -->
+  <link rel="stylesheet" href="css/layout.css" />
+</head>
+<body>
+
+  <!-- =======================
+       Header (재사용)
+  ======================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">AI News</a>
+
+      <div class="header-search-wrap">
+        <input
+          type="text"
+          id="searchInput"
+          class="header-search"
+          placeholder="뉴스 검색"
+        />
+        <button
+          type="button"
+          id="searchBtn"
+          class="header-search-btn"
+          aria-label="검색"
+        >
+          🔍
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================
+       Search Result Section
+  ======================== -->
+  <section class="section">
+    <div class="container">
+      <h3 id="searchTitle">검색 결과</h3>
+
+      <!-- index와 동일한 카드 그리드 -->
+      <div class="card-grid" id="searchResultGrid"></div>
+    </div>
+  </section>
+
+  <!-- =======================
+       News Modal (index와 동일)
+  ======================== -->
+  <div id="newsModal" class="news-modal">
+    <div class="news-modal-overlay"></div>
+    <div class="news-modal-content">
+      <button id="newsModalClose" class="news-modal-close">×</button>
+
+      <h2 id="modalTitle"></h2>
+      <p id="modalSummary"></p>
+      <div id="modalKeywords"></div>
+    </div>
+  </div>
+
+  <!-- =======================
+       JS 로드 순서 (중요)
+  ======================== -->
+  <script src="js/news.js"></script>        <!-- ⭐ UI 핵심 -->
+  <script src="js/search.js"></script>      <!-- 검색 데이터 -->
+  <script src="js/header-search.js"></script>
+  <script src="js/config.js"></script>
+
+</body>
+</html>

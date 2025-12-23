@@ -1,0 +1,852 @@
+/* ==================================================
+   Base
+================================================== */
+body {
+  margin: 0;
+  font-family: Pretendard, Arial, sans-serif;
+  color: var(--black);
+  background: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==================================================
+   Header
+================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #065d97;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+/* ✅ 중복 제거 후 통합 */
+.header-inner {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 40px;
+    background: linear-gradient(
+    90deg,
+    #8eb0e2 0%,
+    #e0f3ff 40%,
+    #a5c0ff 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+}
+
+.nav {
+  margin-left: auto;
+}
+
+.nav a {
+  margin-left: 12px;
+  font-weight: 600;
+}
+
+/* ==================================================
+   HERO
+================================================== */
+.hero {
+  position: relative;
+  height: 100vh;
+  background: url("../assets/images/hero-bg.png") center / cover no-repeat;
+  overflow: hidden;
+
+  /* ❗ flex를 쓰지 않으므로 현재 효과 없음
+  align-items: center;
+  */
+}
+
+.hero-images {
+  position: absolute;
+  inset: 0;
+}
+
+
+.hero-img {
+  position: absolute;
+  top: 50%;
+  width: 260px;
+  opacity: 0;
+  transition: transform 1.2s ease, opacity 1.2s ease;
+}
+
+.hero-img.ai {
+  width: 30vh;
+  right: 20%;
+  top: 40%;
+  transform: translate(120%, -50%);
+}
+
+.hero-img.news {
+  width: 40vh;
+  right: 17%;
+  top: 60%;
+  transform: translate(-120%, -50%);
+}
+
+
+
+.hero.show .hero-img {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+.hero:hover .hero-img.left {
+  transform: translate(0, -60%);
+}
+
+.hero:hover .hero-img.right {
+  transform: translate(0, -40%);
+}
+
+/* ==================================================
+   HERO Text
+================================================== */
+.hero-text {
+  position: relative;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 1200px;
+  text-align: left;
+}
+
+/* ==================================================
+   HERO 텍스트 커스터마이징 변수
+================================================== */
+:root {
+  --hero-line1-size: 80px;
+  --hero-line2-size: 90px;
+  --hero-line3-size: 70px;
+
+  --hero-line1-color: #ffffff;
+  --hero-line2-color: #ffffff;
+  --hero-line3-color: var(--purple);
+}
+
+.hero-line {
+  margin: 12px 0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+
+.hero.show .hero-line {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero.show .line-1 {
+  transition-delay: .2s;
+  font-size: var(--hero-line1-size);
+  font-weight: 500;
+  color: var(--hero-line1-color);
+}
+
+.hero.show .line-2 {
+  transition-delay: .45s;
+  font-size: var(--hero-line2-size);
+  font-weight: 700;
+  color: var(--hero-line2-color);
+}
+
+.hero.show .line-3 {
+  transition-delay: .7s;
+  font-size: var(--hero-line3-size);
+  color: var(--hero-line3-color);
+}
+
+/* ❗ hover 시 translateY → translateX로 덮어씀
+   (의도된 인터랙션이면 유지) */
+.hero:hover .hero-line {
+  transform: translateX(14px);
+}
+
+/* ==================================================
+   AI NEWS 큰 텍스트
+================================================== */
+:root {
+  --hero-line1-size: 5vh;
+  --hero-line2-size: 5vh;
+  --hero-line3-size: 5vh;
+
+  --hero-line1-color: #ffffff;
+  --hero-line2-color: #ffffff;
+  --hero-line3-color: #ffffff;
+}
+
+
+
+.hero-gradient-big {
+  display: inline-block;
+  font-size: 120px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #9fdcff 40%,
+    #5b8cff 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  text-shadow:
+    0 0 18px rgba(159, 220, 255, 0.35),
+    0 0 40px rgba(91, 140, 255, 0.25);
+}
+
+/* ==================================================
+   Header Search
+================================================== */
+.header-search-wrap {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-search {
+  width: 240px;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-family: inherit;
+  border-radius: 999px;
+  border: 1px solid var(--gray-200);
+  background: #fff;
+  outline: none;
+}
+
+.header-search:focus {
+  border-color: #5b8cff;
+  box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.15);
+}
+
+.header-search-btn {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--gray-200);
+  background: #f7f8fc;
+  cursor: pointer;
+}
+
+
+
+/*
+@media (max-width: 768px) {
+  .header-search-wrap {
+    display: none;
+  }
+}
+*/
+
+
+
+/* ==================================================
+   Section
+================================================== */
+.section {
+  padding: 20px 0;
+}
+
+.section h3 {
+  font-size: 34px;
+  margin-bottom: 24px;
+}
+
+/* ==================================================
+   News Cards
+================================================== */
+.news-card-image-wrap {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.news-card-ai-label {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-size: 11px;
+  padding: 4px 8px;
+  color: #fff;
+  background: rgba(10, 20, 60, 0.65);
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.card {
+  position: relative;
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  background: #e4e4e4;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,.12);
+}
+
+.news-thumb {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.news-title {
+  margin: 10px 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.news-keywords {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.news-keywords span {
+  font-size: 14px;
+  padding: 4px 8px;
+  background: #c9c9cc;
+  color: var(--purple);
+  border-radius: 999px;
+}
+
+/* ==================================================
+   News Modal (카드형 복구)
+================================================== */
+.news-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 1000;
+}
+
+.news-modal.active {
+  display: block;
+}
+
+.news-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+}
+
+.news-modal-content {
+  position: relative;
+  width:60%;
+  max-width: 1200px;
+  margin: 5vh auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.news-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Modal Image */
+.news-modal-image-wrap {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1px;
+}
+
+.news-modal-thumb {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.news-modal-ai-label {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  font-size: 14px;
+  padding: 6px 10px;
+  color: #fff;
+  background: rgba(10, 20, 60, 0.65);
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.news-modal-content h2 {
+  margin: 28px auto 8px;
+  font-size: 42px;
+  max-width: 80%;
+}
+
+.modal-date {
+  margin-bottom: 24px;
+  font-size: 23px;
+  color: #8b8b93;
+}
+
+#modalSummary {
+  max-width: 95%;
+  margin: 0 auto;
+  font-size: 22px;
+  line-height: 1.7;
+}
+
+.modal-keywords {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.modal-keywords span {
+  font-size: 16px;
+  padding: 6px 12px;
+}
+
+.news-modal-img-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5;
+}
+
+.news-modal-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15),
+    rgba(0,0,0,0.45),
+    rgba(0,0,0,0.85)
+  );
+  z-index: 1;
+}
+
+.news-modal-text {
+  position: absolute;
+  left: 0;
+  bottom: 28px;
+  width: 100%;
+  padding: 0 24px;
+  z-index: 2;
+  color: #fff;
+}
+
+.news-modal-title {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.news-modal-date {
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+/* 🔊 뉴스 모달 TTS 버튼 - 이미지 상단 고정 */
+.news-modal-tts {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+
+  display: flex;
+  gap: 8px;
+
+  z-index: 10;              /* 🔥 그라데이션보다 위 */
+  pointer-events: auto;     /* 🔥 클릭 가능 */
+}
+
+
+
+/* 공통 버튼 */
+.news-modal-tts-play,
+.news-modal-tts-stop {
+  height: 34px;
+  padding: 0 14px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  border-radius: 999px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  transition: all 0.2s ease;
+}
+
+/* ▶️ 요약 듣기 */
+.news-modal-tts-play {
+  background: linear-gradient(
+    135deg,
+    rgba(91, 140, 255, 0.95),
+    rgba(130, 170, 255, 0.95)
+  );
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.4);
+
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.news-modal-tts-play:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+}
+
+/* ⏹ 정지 */
+.news-modal-tts-stop {
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.35);
+}
+
+.news-modal-tts-stop:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+
+
+
+/* ==============================
+   Section Base
+================================ */
+.section {
+  padding: 80px 0;
+}
+
+.section-title {
+  margin-bottom: 32px;
+  letter-spacing: -0.02em;
+}
+
+
+/* ==============================
+   Today News Section
+================================ */
+.today-news-section {
+  background: #f5f9fc; /* 밝은 블루톤 */
+}
+
+.today-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #065d97;
+
+  /* 폰트 분리 가능 */
+  font-family: "Pretendard", sans-serif;
+}
+
+
+
+/* ==============================
+   Previous News Section
+================================ */
+.previous-news-section {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.previous-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #555;
+
+  /* 다른 폰트 적용 가능 */
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+
+
+/* ==================================================
+   Footer
+================================================== */
+.site-footer {
+  padding: 40px 0;
+  color: #8b8b93;
+}
+
+
+
+
+/* ==================================================
+   Tablet (769px ~ 1024px)
+================================================== */
+@media (max-width: 1024px) {
+
+  /* 컨테이너 폭 완화 */
+  .container {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  /* 로고 크기 축소 */
+  .logo {
+    font-size: 26px;
+  }
+
+  /* HERO 텍스트 크기만 조정 (구조 유지) */
+  .hero.show .line-1 {
+    font-size: clamp(48px, 6vh, 64px);
+  }
+
+  .hero.show .line-2 {
+    font-size: clamp(52px, 7vh, 72px);
+  }
+
+  .hero.show .line-3 {
+    font-size: clamp(32px, 4vh, 48px);
+  }
+
+  /* HERO 이미지 크기 축소 */
+  .hero-img {
+    width: 200px;
+  }
+
+  .hero-img.news {
+  width: 40vh;        /* 뉴스 이미지 살짝 작게 */
+  right: 8%;
+  top: 50%;
+  transform: translate(120%, 50%);
+  }
+
+  .hero-img.ai {
+  width: 25vh;        /* 뉴스 이미지 살짝 작게 */
+  right: 14%;
+  top: 32%;
+  transform: translate(-120%, -50%);
+  }
+
+  /* 카드 2열 */
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 모달 폭 */
+  .news-modal-content {
+    max-width: 94%;
+    padding: 20px;
+  }
+}
+
+/* ==================================================
+   Mobile (~768px)
+================================================== */
+@media (max-width: 768px) {
+
+  /* ================= Header ================= */
+  .header-inner {
+    height: 64px;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .header-search-wrap {
+    flex: 0 0 auto;
+  }
+
+  .header-search {
+    width: 260px;      /* 🔥 고정 */
+    max-width: 260px;
+  }
+
+
+
+  /* ================= HERO ================= */
+  .hero {
+    background: url("../assets/images/hero-bg_mo.png") center / cover no-repeat;
+    height: 73vh;
+  }
+
+
+
+  .hero-text {
+    transform: translateY(-50%);
+    text-align: center;
+  }
+
+  .hero.show .line-1 {
+    font-size: 46px;
+  }
+
+  .hero.show .line-2 {
+    font-size: 40px;
+  }
+
+  .hero.show .line-3 {
+    font-size: 30px;
+  }
+
+  /* HERO 이미지 제거 (겹침 방지) */
+  .hero-img {
+    display: none;
+  }
+
+    .hero-img {
+    display: block;          /* 다시 보이게 */
+    width: 120px;            /* 모바일용 크기 */
+    opacity: 0.9;
+  }
+
+  .hero-img.news {
+    content: url("../assets/images/hero-news-mo.png");
+    width: 70vh;
+    right: 0%;
+    top: 00%;
+    opacity: 0.3 !important;
+    filter: blur(0.5px) brightness(1.2);
+  }
+
+  .hero-img.ai {
+    content: url("../assets/images/hero-ai-mo.png");
+    width: 70vh;
+    right: 30%;
+    top: 80%;
+    opacity: 0.45 !important;
+    filter: blur(0.8px) brightness(1.3);
+  }
+
+  .hero-gradient-big {
+  display: inline-block;
+  font-size: 80px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #9fdcff 40%,
+    #5b8cff 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  text-shadow:
+    0 0 18px rgba(159, 220, 255, 0.35),
+    0 0 40px rgba(91, 140, 255, 0.25);
+}
+
+  /* ================= Section ================= */
+  .section {
+    padding: 30px 0;
+  }
+
+  /* ================= Cards ================= */
+  .card-grid {
+    grid-template-columns: 1fr;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* ================= Modal ================= */
+  .news-modal-content {
+    width: 99%;
+    height: 99%;
+    padding: 10px;
+    border-radius: 16px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #modalSummary {
+    flex: 1;                    /* ⭐ 남은 공간 전부 사용 */
+    overflow-y: auto;           /* ⭐ 스크롤 생성 */
+    max-width: 98%;
+    margin: 5px auto 0;
+    font-size: 20px;
+    line-height: 1.7;
+    background-color: #e7e7e7;
+
+    padding-right: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  
+  .news-modal-content h2 {
+  margin: 28px auto 8px;
+  font-size: 25px;
+  max-width: 80%;
+  }
+
+  .news-modal-title {
+  font-size: clamp(18px, 4.5vw, 24px);
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 6px;
+  }
+}
+
+
+
